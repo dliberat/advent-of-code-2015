@@ -28,8 +28,13 @@ pub(crate) fn solve(input: Lines<BufReader<File>>) {
         read_instruction(line.unwrap(), &mut circuit);
     }
 
-    let result = solve_for_wire(String::from("a"), &circuit, &mut signals);
+    let mut signals_clone = signals.clone();
+    let result = solve_for_wire(String::from("a"), &circuit, &mut signals_clone);
     println!("Part 1: Final signal on wire a: {}", result);
+
+    circuit.insert(String::from("b"), result.to_string());
+    let result = solve_for_wire(String::from("a"), &circuit, &mut signals);
+    println!("Part 2: Final signal on wire a: {}", result);
 }
 
 fn solve_for_wire(wire: String, circuit: &HashMap<String, String>, signals: &mut HashMap<String, u16>) -> u16 {
