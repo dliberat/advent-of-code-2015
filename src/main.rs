@@ -25,6 +25,8 @@ mod day20;
 mod day21;
 mod day22;
 mod day23;
+mod day24;
+mod day25;
 
 fn main() {
 
@@ -64,6 +66,8 @@ Run solutions to Advent Of Code 2015.
         21 => day21::solve(input),
         22 => day22::solve(input),
         23 => day23::solve(input),
+        24 => day24::solve(input),
+        25 => day25::solve(input),
         i32::MIN..=0_i32 | 2_i32..=i32::MAX => println!("Invalid input!"),
     }
 }
