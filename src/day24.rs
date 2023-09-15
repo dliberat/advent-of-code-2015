@@ -19,14 +19,28 @@ fn part_1(present_weights: Vec<u64>) -> u64 {
     
     // Look for combinations of presents that add up to the target weight.
     // Generating a full list of all the possible combinations that add up to that weight will take a long time,
+    // but for the passenger compartment we're only interested in the smallest possible group,
+    // so we can take a greedy approach. Start by seeing if any 1 present has weight == target,
+    // then see if any combination of any 2 presents have weight == target, then three, then four, etc.
+    // We end up wasting a lot of processing here because each time we increment `i` we're repeating the work
+    // from the previous iterations, but in practice we can still reach a solution in an acceptable amount of time.
     for i in 1..present_weights.len() {
+
+        // In what ways can we choose at most `i` packages such that the total weight will equal `target`?
         let combos = get_combinations_summing_to_n(target, present_weights.clone(), i);
 
+        // Once we've placed all of the chosen presents (that sum up to `target`) into the passenger compartment,
+        // it still needs to be possible to divide the remaining presents into equal partitions so that the sleigh is balanced.
+        // Even if a combination of presents has weight==target, it is not really a valid combination unless
+        // the remaining presents can be equally split up into two combos whose total weight is also `target`.
         let valid_combos: Vec<Vec<u64>> = combos.iter()
             .map(|x| x.clone())
             .filter(|c| is_valid_three_way_split(target, c, &present_weights))
             .collect();
 
+        // Because we're taking a greedy approach, once we've found any valid combinations at all, we know that they are
+        // of the smallest possible size (ie. fewest number of presents). If there are multiple such combinations,
+        // the tiebreaker is the "quantum entanglement".
         if valid_combos.len() > 0 {
             let entanglements: Vec<u64> = valid_combos.iter().map(|x| x.iter().product()).collect();
             match entanglements.iter().min() {
