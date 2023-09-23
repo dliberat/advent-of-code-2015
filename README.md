@@ -1,6 +1,10 @@
 # Advent of Code 2015
 
-## Getting Started
+## About
+
+In this repository, I solved all of the Advent of Code 2015 puzzles using Rust, as an exercise to get some familiarity with the language.
+
+## Running the code
 
 From inside the project directory, run `cargo build` to build the project.
 
